@@ -39,6 +39,9 @@ jobs:
           rev: d7d5dcbf
           cache-key: luafmt-v1
 
+      - name: setup quality deps
+        run: just setup
+
       - name: run quality checks
         run: just ci-quality
 

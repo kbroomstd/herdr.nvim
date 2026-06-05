@@ -21,9 +21,6 @@
     ]
   },
   "diagnostics": {
-    "disable": [
-      "unresolved-require"
-    ],
     "globals": [
       "vim"
     ]
