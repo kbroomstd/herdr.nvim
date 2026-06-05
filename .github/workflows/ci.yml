@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   format-check:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     steps:
       - uses: actions/checkout@v6
 
@@ -39,7 +39,7 @@ jobs:
 
   lint:
     if: false # Temporarily disabled while investigating emmylua_check timeout/hang in CI.
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     strategy:
       matrix:
         nvim: [v0.12.2, nightly]
@@ -88,7 +88,7 @@ jobs:
           emmylua_check -c .emmyrc.json  lua tests --verbose
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     strategy:
       matrix:
         nvim: [v0.12.2, nightly]
