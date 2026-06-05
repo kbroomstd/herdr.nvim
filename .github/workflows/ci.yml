@@ -10,39 +10,6 @@ permissions:
   contents: read
 
 jobs:
-  lint:
-    runs-on: blacksmith-4vcpu-ubuntu-2404
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: install just
-        uses: taiki-e/install-action@v2
-        with:
-          tool: just
-
-      - name: install rust toolchain
-        uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: stable
-
-      - name: install emmylua_check
-        uses: baptiste0928/cargo-install@v3
-        with:
-          crate: emmylua_check
-          cache-key: emmylua-check-v1
-
-      - name: install luafmt
-        uses: baptiste0928/cargo-install@v3
-        with:
-          crate: emmylua_formatter
-          git: https://github.com/EmmyLuaLs/emmylua-analyzer-rust
-          rev: d7d5dcbf
-          cache-key: luafmt-v1
-
-      - name: run ci-lint
-        timeout-minutes: 1
-        run: just ci-lint
-
   format-check:
     runs-on: blacksmith-4vcpu-ubuntu-2404
     steps:
@@ -70,11 +37,60 @@ jobs:
         timeout-minutes: 1
         run: just format-check
 
+  lint:
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    strategy:
+      matrix:
+        nvim: [v0.12.2, nightly]
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: install just
+        uses: taiki-e/install-action@v2
+        with:
+          tool: just
+
+      - name: install rust toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+
+      - name: install emmylua_check
+        uses: baptiste0928/cargo-install@v3
+        with:
+          crate: emmylua_check
+          cache-key: emmylua-check-v1
+
+      - name: install luafmt
+        uses: baptiste0928/cargo-install@v3
+        with:
+          crate: emmylua_formatter
+          git: https://github.com/EmmyLuaLs/emmylua-analyzer-rust
+          rev: d7d5dcbf
+          cache-key: luafmt-v1
+
+      - name: install neovim
+        uses: rhysd/action-setup-vim@v1
+        id: vim
+        with:
+          neovim: true
+          version: ${{ matrix.nvim }}
+
+      - name: setup lint deps
+        run: just setup
+
+      - name: run lint
+        timeout-minutes: 1
+        run: |
+          vim_dir="${{ steps.vim.outputs.vim-dir }}/runtime"
+          sed -i "s|/usr/share/nvim/runtime|${vim_dir}|g" .emmyrc.json
+          emmylua_check -c .emmyrc.json  lua tests --verbose
+
   test:
     runs-on: blacksmith-4vcpu-ubuntu-2404
     strategy:
       matrix:
-        nvim: [stable, nightly]
+        nvim: [v0.12.2, nightly]
     steps:
       - uses: actions/checkout@v6
 
@@ -88,9 +104,6 @@ jobs:
         with:
           neovim: true
           version: ${{ matrix.nvim }}
-
-      - name: setup test deps
-        run: just setup
 
       - name: run tests
         run: just test
