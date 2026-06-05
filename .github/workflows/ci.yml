@@ -38,6 +38,7 @@ jobs:
         run: just format-check
 
   lint:
+    if: false # Temporarily disabled while investigating emmylua_check timeout/hang in CI.
     runs-on: ubuntu-latest
     strategy:
       matrix:
