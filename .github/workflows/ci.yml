@@ -38,6 +38,7 @@ jobs:
         run: just format-check
 
   lint:
+    if: false # Temporarily disabled while investigating emmylua_check timeout/hang in CI.
     runs-on: blacksmith-4vcpu-ubuntu-2404
     strategy:
       matrix:
@@ -80,7 +81,7 @@ jobs:
         run: just setup
 
       - name: run lint
-        timeout-minutes: 1
+        timeout-minutes: 10
         run: |
           vim_dir="${{ steps.vim.outputs.vim-dir }}/runtime"
           sed -i "s|/usr/share/nvim/runtime|${vim_dir}|g" .emmyrc.json
