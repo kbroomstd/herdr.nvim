@@ -19,7 +19,14 @@ test:
   nvim --headless --noplugin -u tests/minimal_init.lua -c "PlenaryBustedDirectory tests/spec { minimal_init = 'tests/minimal_init.lua' }"
 
 lint:
-  emmylua_check
+  emmylua_check -c .emmyrc.json -i ".tests/**,.git/**" lua tests
+
+ci-quality:
+  just lint
+  just format-check
+
+format-check:
+  luafmt --check --config luafmt.toml --recursive ./lua ./tests
 
 format:
-  luafmt ./lua ./tests/ --write
+  luafmt --write --config luafmt.toml --recursive ./lua ./tests

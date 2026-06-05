@@ -1,9 +1,8 @@
 describe("herdr module", function ()
   it("exposes a setup function", function ()
-    local ok, module = pcall(require, "herdr")
+    local herdr = require("herdr")
 
-    assert.is_true(ok)
-    assert.is_table(module)
-    assert.is_function(module.setup)
+    assert.is_table(herdr)
+    assert.is_function(herdr.setup)
   end)
 end)

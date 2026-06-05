@@ -1,1 +1,3 @@
 x 2026-06-05 2026-06-04 setup just test
+x 2026-06-05 2026-06-05 make just lint work
+x 2026-06-05 2026-06-05 setup ci so that when a pr is merge into main in has to pass linter and formatter just task

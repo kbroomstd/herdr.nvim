@@ -13,13 +13,12 @@
   },
   "workspace": {
     "workspaceRoots": [
-      "src",
+      "lua",
       "tests"
     ],
     "library": [
-      "~/.local/share/mise/installs/neovim/0.12.2/share/nvim/runtime",
-      "~/.local/share/nvim/lazy",
-      "~/.local/share/nvim/site/pack/core/opt"
+      "/usr/share/nvim/runtime",
+      ".tests/site/pack/deps/start/plenary.nvim"
     ],
     "ignoreDir": [
       ".git"

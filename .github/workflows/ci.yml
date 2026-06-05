@@ -1,0 +1,50 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install just
+        uses: taiki-e/install-action@just
+
+      - name: install rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: install quality tools
+        run: |
+          cargo install emmylua_check
+          cargo install --git https://github.com/EmmyLuaLs/emmylua-analyzer-rust emmylua_formatter
+
+      - name: run quality checks
+        run: just ci-quality
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        nvim: [stable, nightly]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install just
+        uses: taiki-e/install-action@just
+
+      - name: install neovim
+        uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: ${{ matrix.nvim }}
+
+      - name: setup test deps
+        run: just setup
+
+      - name: run tests
+        run: just test
