@@ -1,25 +1,25 @@
 default:
   @just --list
 
-plenary_dir := ".tests/site/pack/deps/start/plenary.nvim"
+mini_dir := "deps/mini.nvim"
 
 [script]
 setup:
-  mkdir -p .tests/site/pack/deps/start
-  if [ ! -d "{{plenary_dir}}" ]; then
-    git clone --depth 1 https://github.com/nvim-lua/plenary.nvim "{{plenary_dir}}"
+  mkdir -p deps
+  if [ ! -d "{{mini_dir}}" ]; then
+    git clone --filter=blob:none https://github.com/nvim-mini/mini.nvim "{{mini_dir}}"
   fi
 
 [script]
 test:
-  if [ ! -d "{{plenary_dir}}" ]; then
+  if [ ! -d "{{mini_dir}}" ]; then
     printf '%s\n' "error: missing test dependency: run 'just setup' first" >&2
     exit 1
   fi
-  nvim --headless --noplugin -u tests/minimal_init.lua -c "PlenaryBustedDirectory tests/spec { minimal_init = 'tests/minimal_init.lua' }"
+  nvim --headless --noplugin -u ./scripts/minimal_init.lua -c "lua MiniTest.run()"
 
 lint:
-  emmylua_check -c .emmyrc.json -i ".tests/**,.git/**" lua tests
+  emmylua_check -c .emmyrc.json  lua tests
 
 ci-quality:
   just lint

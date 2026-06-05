@@ -5,10 +5,6 @@
     "path": [
       "lua/?.lua",
       "lua/?/init.lua"
-    ],
-    "requirePattern": [
-      "?.lua",
-      "?/init.lua"
     ]
   },
   "workspace": {
@@ -18,7 +14,7 @@
     ],
     "library": [
       "/usr/share/nvim/runtime",
-      ".tests/site/pack/deps/start/plenary.nvim"
+      "deps/mini.nvim"
     ],
     "ignoreDir": [
       ".git"
