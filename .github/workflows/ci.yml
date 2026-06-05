@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  quality:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -39,11 +39,36 @@ jobs:
           rev: d7d5dcbf
           cache-key: luafmt-v1
 
-      - name: setup quality deps
-        run: just setup
+      - name: run ci-lint
+        timeout-minutes: 1
+        run: just ci-lint
 
-      - name: run quality checks
-        run: just ci-quality
+  format-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: install just
+        uses: taiki-e/install-action@v2
+        with:
+          tool: just
+
+      - name: install rust toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+
+      - name: install luafmt
+        uses: baptiste0928/cargo-install@v3
+        with:
+          crate: emmylua_formatter
+          git: https://github.com/EmmyLuaLs/emmylua-analyzer-rust
+          rev: d7d5dcbf
+          cache-key: luafmt-v1
+
+      - name: run format check
+        timeout-minutes: 1
+        run: just format-check
 
   test:
     runs-on: ubuntu-latest

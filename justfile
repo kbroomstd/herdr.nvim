@@ -21,8 +21,8 @@ test:
 lint:
   emmylua_check -c .emmyrc.json  lua tests
 
-ci-quality: format-check lint
-  echo "done"
+ci-lint: setup
+  emmylua_check -c .emmyrc.json  lua tests --verbose
 
 format-check:
   luafmt --check --config luafmt.toml --recursive ./lua ./tests
