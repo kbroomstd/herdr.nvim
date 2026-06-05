@@ -24,6 +24,7 @@ jobs:
       - name: cache rust artifacts
         uses: Swatinem/rust-cache@v2
         with:
+          shared-key: quality-tools-v1
           cache-all-crates: true
 
       - name: install emmylua_check
@@ -33,14 +34,11 @@ jobs:
 
       - name: install luafmt
         env:
-          CARGO_TARGET_DIR: /home/runner/work/_cargo-install/emmylua_formatter/target
+          CARGO_TARGET_DIR: target/ci/emmylua_formatter
         run: |
           if ! command -v luafmt >/dev/null 2>&1; then
             cargo install --git https://github.com/EmmyLuaLs/emmylua-analyzer-rust --rev d7d5dcbf emmylua_formatter
           fi
-
-      - name: setup quality deps
-        run: just setup
 
       - name: run quality checks
         run: just ci-quality
