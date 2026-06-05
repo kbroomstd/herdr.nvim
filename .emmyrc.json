@@ -13,8 +13,22 @@
       "tests"
     ],
     "library": [
-      "/usr/share/nvim/runtime",
-      "deps/mini.nvim"
+      {
+        "path": "/usr/share/nvim/runtime",
+        "ignoreDir": [
+          "syntax",
+          "plugin",
+          "pack",
+          "ftplugin"
+        ]
+      },
+      {
+        "path": "deps/mini.nvim",
+        "ignoreDir": [
+          "tests",
+          "benchmarks"
+        ]
+      }
     ],
     "ignoreDir": [
       ".git"
