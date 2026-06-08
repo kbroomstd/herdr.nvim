@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#MISE description="Clone test dependency (mini.nvim)"
+set -euo pipefail
+
+mini_dir="deps/mini.nvim"
+mkdir -p deps
+if [ ! -d "$mini_dir" ]; then
+  git clone --filter=blob:none https://github.com/nvim-mini/mini.nvim "$mini_dir"
+fi

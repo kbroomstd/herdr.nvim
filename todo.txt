@@ -1,5 +1,6 @@
-x 2026-06-05 2026-06-04 setup just test
-x 2026-06-05 2026-06-05 make just lint work
-x 2026-06-05 2026-06-05 setup ci so that when a pr is merge into main in has to pass linter and formatter just task
+x 2026-06-05 2026-06-04 setup mise test
+x 2026-06-05 2026-06-05 make mise lint work
+x 2026-06-05 2026-06-05 setup ci so that when a pr is merge into main in has to pass linter and formatter mise task
 x 2026-06-05 2026-06-05 replace test runner with https://github.com/nvim-mini/mini.nvim
 x 2026-06-05 2026-06-05 improve performance of ci
+x 2026-06-08 2026-06-08 move from just tasks to mise tasks

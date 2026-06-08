@@ -1,0 +1,16 @@
+[tasks.test]
+description = "Run tests with MiniTest"
+depends = ["setup"]
+run = """nvim --headless --noplugin -u ./scripts/minimal_init.lua -c "lua MiniTest.run()" """
+
+[tasks.lint]
+description = "Run EmmyLua type checker"
+run = "emmylua_check -c .emmyrc.json lua tests"
+
+[tasks.format-check]
+description = "Check code formatting with luafmt"
+run = "luafmt --check --config luafmt.toml --recursive ./lua ./tests"
+
+[tasks.format]
+description = "Format code with luafmt"
+run = "luafmt --write --config luafmt.toml --recursive ./lua ./tests"

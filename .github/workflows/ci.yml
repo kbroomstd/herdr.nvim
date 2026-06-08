@@ -15,10 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: install just
-        uses: taiki-e/install-action@v2
-        with:
-          tool: just
+      - uses: jdx/mise-action@v2
 
       - name: install rust toolchain
         uses: dtolnay/rust-toolchain@master
@@ -35,7 +32,7 @@ jobs:
 
       - name: run format check
         timeout-minutes: 1
-        run: just format-check
+        run: mise run format-check
 
   lint:
     # if: false # Temporarily disabled while investigating emmylua_check timeout/hang in CI.
@@ -46,10 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: install just
-        uses: taiki-e/install-action@v2
-        with:
-          tool: just
+      - uses: jdx/mise-action@v2
 
       - name: install rust toolchain
         uses: dtolnay/rust-toolchain@master
@@ -72,7 +66,7 @@ jobs:
           version: ${{ matrix.nvim }}
 
       - name: setup lint deps
-        run: just setup
+        run: mise run setup
 
       - name: run lint
         timeout-minutes: 1
@@ -90,10 +84,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: install just
-        uses: taiki-e/install-action@v2
-        with:
-          tool: just
+      - uses: jdx/mise-action@v2
 
       - name: install neovim
         uses: rhysd/action-setup-vim@v1
@@ -102,4 +93,4 @@ jobs:
           version: ${{ matrix.nvim }}
 
       - name: run tests
-        run: just test
+        run: mise run test
