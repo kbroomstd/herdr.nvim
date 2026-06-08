@@ -1,4 +1,5 @@
 *.tuxedo-lock
+.references/
 # Compiled Lua sources
 luac.out
 

@@ -38,7 +38,7 @@ jobs:
         run: just format-check
 
   lint:
-    if: false # Temporarily disabled while investigating emmylua_check timeout/hang in CI.
+    # if: false # Temporarily disabled while investigating emmylua_check timeout/hang in CI.
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -60,15 +60,9 @@ jobs:
         uses: baptiste0928/cargo-install@v3
         with:
           crate: emmylua_check
-          cache-key: emmylua-check-v1
-
-      - name: install luafmt
-        uses: baptiste0928/cargo-install@v3
-        with:
-          crate: emmylua_formatter
           git: https://github.com/EmmyLuaLs/emmylua-analyzer-rust
-          rev: d7d5dcbf
-          cache-key: luafmt-v1
+          commit: 7c96abd684c3d840719c0d9d24ada5e5b1b81288
+          cache-key: emmylua-check-v1
 
       - name: install neovim
         uses: rhysd/action-setup-vim@v1
@@ -81,7 +75,8 @@ jobs:
         run: just setup
 
       - name: run lint
-        timeout-minutes: 10
+        timeout-minutes: 1
+        # timeout-minutes: 10
         run: |
           vim_dir="${{ steps.vim.outputs.vim-dir }}/runtime"
           sed -i "s|/usr/share/nvim/runtime|${vim_dir}|g" .emmyrc.json
